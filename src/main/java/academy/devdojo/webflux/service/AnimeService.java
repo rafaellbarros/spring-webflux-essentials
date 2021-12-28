@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * created by:
@@ -23,5 +24,9 @@ public class AnimeService {
     public Flux<Anime> listAll() {
         log.info("AnimeService::listAll");
         return animeRepository.findAll();
+    }
+
+    public Mono<Anime> findById(final int id) {
+        return animeRepository.findById(id);
     }
 }
