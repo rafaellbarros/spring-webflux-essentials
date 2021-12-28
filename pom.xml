@@ -27,7 +27,6 @@
 			<groupId>io.projectreactor.tools</groupId>
 			<artifactId>blockhound</artifactId>
 			<version>${blockhound.version}</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>io.r2dbc</groupId>
