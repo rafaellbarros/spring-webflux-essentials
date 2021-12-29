@@ -36,15 +36,25 @@ public class AnimeService {
         return Mono.error(new ResponseStatusException(HttpStatus.NOT_FOUND, "Anime not found"));
     }
 
-    public Mono<Anime> save(Anime anime) {
+    public Mono<Anime> save(final Anime anime) {
         return animeRepository.save(anime)
                 .log("save()");
     }
 
-    public Mono<Anime> update(Anime anime) {
+    public Mono<Anime> update(final Anime anime) {
         return findById(anime.getId())
                 .map(animeFound -> anime.withId(animeFound.getId()))
                 .flatMap(animeRepository::save)
                 .log("update()");
+    }
+
+    public Mono<Void> delete(int id) {
+        return findById(id)
+                .flatMap(animeRepository::delete)
+                .onErrorResume(this::monoResponseStatusNoContentException);
+    }
+
+    private Mono<Void> monoResponseStatusNoContentException(Throwable throwable) {
+        return  Mono.error(new ResponseStatusException(HttpStatus.NO_CONTENT));
     }
 }
