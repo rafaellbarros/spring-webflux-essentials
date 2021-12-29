@@ -18,6 +18,8 @@ server:
   port: 8090
   compression:
     enabled: false
+  error:
+    include-stacktrace: on_param
 
 logging:
   level:
