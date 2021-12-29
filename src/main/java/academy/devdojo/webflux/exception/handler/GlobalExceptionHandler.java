@@ -9,7 +9,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.http.MediaType;
 import org.springframework.http.codec.ServerCodecConfigurer;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.server.RequestPredicates;
 import org.springframework.web.reactive.function.server.RouterFunction;
@@ -18,11 +17,10 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
-import java.util.Map;
 import java.util.Optional;
 
-import static java.util.Optional.of;
 import static org.springframework.boot.web.error.ErrorAttributeOptions.defaults;
+import static org.springframework.util.ObjectUtils.isEmpty;
 
 /**
  * created by:
@@ -33,26 +31,26 @@ import static org.springframework.boot.web.error.ErrorAttributeOptions.defaults;
 @Order(-2)
 public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
 
-    public GlobalExceptionHandler(ErrorAttributes errorAttributes,
-                                  Resources resources,
-                                  ApplicationContext applicationContext,
-                                  ServerCodecConfigurer codecConfigurer) {
+    public GlobalExceptionHandler(final ErrorAttributes errorAttributes,
+                                  final Resources resources,
+                                  final ApplicationContext applicationContext,
+                                  final ServerCodecConfigurer codecConfigurer) {
         super(errorAttributes, resources, applicationContext);
         this.setMessageWriters(codecConfigurer.getWriters());
     }
 
     @Override
-    protected RouterFunction<ServerResponse> getRoutingFunction(ErrorAttributes errorAttributes) {
+    protected RouterFunction<ServerResponse> getRoutingFunction(final ErrorAttributes errorAttributes) {
         return RouterFunctions.route(RequestPredicates.all(), this::formatErrorResponse);
     }
 
-    private Mono<ServerResponse> formatErrorResponse(ServerRequest request) {
-        String query = request.uri().getQuery();
-        ErrorAttributeOptions errorAttributeOptions = isTraceEnabled(query) ?
+    private Mono<ServerResponse> formatErrorResponse(final ServerRequest request) {
+        var query = request.uri().getQuery();
+        var errorAttributeOptions = isTraceEnabled(query) ?
                 ErrorAttributeOptions.of(ErrorAttributeOptions.Include.STACK_TRACE) : defaults();
 
-        Map<String, Object> errorAttributesMap = getErrorAttributes(request, errorAttributeOptions);
-        int status = (int) Optional.ofNullable(errorAttributesMap.get("status")).orElse(500);
+        var errorAttributesMap = getErrorAttributes(request, errorAttributeOptions);
+        var status = (int) Optional.ofNullable(errorAttributesMap.get("status")).orElse(500);
         return ServerResponse
                 .status(status)
                 .contentType(MediaType.APPLICATION_JSON)
@@ -60,7 +58,7 @@ public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
     }
 
     private boolean isTraceEnabled(String query) {
-        return !StringUtils.isEmpty(query) && query.contains("trace=true");
+        return !isEmpty(query) && query.contains("trace=true");
     }
 }
 
