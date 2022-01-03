@@ -84,7 +84,7 @@ class AnimeServiceTest {
     @Test
     @DisplayName("findAll returns a flux of anime")
     public void findAll_ReturnFluxOfAnime_WhenSuccessful() {
-        StepVerifier.create(animeService.listAll())
+        StepVerifier.create(animeService.findAll())
                 .expectSubscription()
                 .expectNext(anime)
                 .verifyComplete();

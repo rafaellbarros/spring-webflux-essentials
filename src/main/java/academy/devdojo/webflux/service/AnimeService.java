@@ -21,7 +21,7 @@ public class AnimeService {
     private final AnimeRepository animeRepository;
 
 
-    public Flux<Anime> listAll() {
+    public Flux<Anime> findAll() {
         return animeRepository.findAll()
                 .log("listAll()");
     }

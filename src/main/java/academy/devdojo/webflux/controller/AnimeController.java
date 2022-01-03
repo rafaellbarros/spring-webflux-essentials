@@ -33,7 +33,7 @@ public class AnimeController {
 
     @GetMapping
     public Flux<Anime> listAll() {
-        return animeService.listAll();
+        return animeService.findAll();
     }
 
     @GetMapping(path = "{id}")
