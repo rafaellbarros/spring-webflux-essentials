@@ -24,7 +24,7 @@ logging:
     org:
       springframework:
         data:
-          r2dbc: DEBUG
+          r2dbc: INFO
     io:
       r2dbc:
         postgresql:
