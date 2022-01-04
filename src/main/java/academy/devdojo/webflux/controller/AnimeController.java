@@ -3,7 +3,6 @@ package academy.devdojo.webflux.controller;
 import academy.devdojo.webflux.domain.Anime;
 import academy.devdojo.webflux.service.AnimeService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.relational.core.sql.In;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
