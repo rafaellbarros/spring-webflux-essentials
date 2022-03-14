@@ -28,7 +28,7 @@ public class AnimeService {
 
     public Mono<Anime> findById(final int id) {
         return animeRepository.findById(id)
-                .switchIfEmpty(monoResponseStatusNotFoundException())
+                .switchIfEmpty(this.monoResponseStatusNotFoundException())
                 .log("findById()");
     }
 
@@ -51,10 +51,6 @@ public class AnimeService {
     public Mono<Void> delete(int id) {
         return findById(id)
                 .flatMap(animeRepository::delete)
-                .onErrorResume(this::monoResponseStatusNoContentException);
-    }
-
-    private Mono<Void> monoResponseStatusNoContentException(Throwable throwable) {
-        return  Mono.error(new ResponseStatusException(HttpStatus.NO_CONTENT));
+                .log("delete()");
     }
 }
