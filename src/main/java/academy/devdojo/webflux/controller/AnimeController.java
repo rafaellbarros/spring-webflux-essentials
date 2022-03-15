@@ -17,6 +17,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * created by:
@@ -48,9 +49,15 @@ public class AnimeController {
         return animeService.save(anime);
     }
 
+    @PostMapping("batch")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Flux<Anime> saveBatch(@RequestBody final List<Anime> animes) {
+        return animeService.saveAll(animes);
+    }
+
     @PutMapping(path = "{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<Anime> update(@PathVariable final int id, @Valid @RequestBody final Anime anime){
+    public Mono<Anime> update(@PathVariable final int id, @Valid @RequestBody final Anime anime) {
         return animeService.update(anime.withId(id));
     }
 

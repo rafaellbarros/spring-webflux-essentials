@@ -2,12 +2,16 @@ package academy.devdojo.webflux.service;
 
 import academy.devdojo.webflux.domain.Anime;
 import academy.devdojo.webflux.repository.AnimeRepository;
+import io.netty.util.internal.StringUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 /**
  * created by:
@@ -39,6 +43,18 @@ public class AnimeService {
     public Mono<Anime> save(final Anime anime) {
         return animeRepository.save(anime)
                 .log("save()");
+    }
+
+    @Transactional
+    public Flux<Anime> saveAll(final List<Anime> animes) {
+        return animeRepository.saveAll(animes)
+                .doOnNext(this::throwResponseStatusExceptionWhenEmptyName);
+    }
+
+    private void throwResponseStatusExceptionWhenEmptyName(final Anime anime) {
+        if (StringUtil.isNullOrEmpty(anime.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid_name");
+        }
     }
 
     public Mono<Anime> update(final Anime anime) {
