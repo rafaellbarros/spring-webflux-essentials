@@ -17,7 +17,7 @@ import java.util.Map;
 public class CustomAttributes extends DefaultErrorAttributes {
 
     @Override
-    public Map<String, Object> getErrorAttributes(final ServerRequest request, final ErrorAttributeOptions options) {
+    public Map<String, Object> getErrorAttributes(ServerRequest request, ErrorAttributeOptions options) {
         var errorAttributesMap = super.getErrorAttributes(request, options);
         var throwable = getError(request);
         if (!(throwable instanceof ResponseStatusException ex)) {

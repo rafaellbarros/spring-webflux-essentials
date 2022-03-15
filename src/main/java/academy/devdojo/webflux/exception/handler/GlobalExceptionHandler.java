@@ -1,6 +1,6 @@
 package academy.devdojo.webflux.exception.handler;
 
-import org.springframework.boot.autoconfigure.web.WebProperties.Resources;
+import org.springframework.boot.autoconfigure.web.WebProperties;
 import org.springframework.boot.autoconfigure.web.reactive.error.AbstractErrorWebExceptionHandler;
 import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.web.reactive.error.ErrorAttributes;
@@ -32,10 +32,10 @@ import static org.springframework.util.ObjectUtils.isEmpty;
 public class GlobalExceptionHandler extends AbstractErrorWebExceptionHandler {
 
     public GlobalExceptionHandler(final ErrorAttributes errorAttributes,
-                                  final Resources resources,
+                                  final WebProperties.Resources resourceProperties,
                                   final ApplicationContext applicationContext,
                                   final ServerCodecConfigurer codecConfigurer) {
-        super(errorAttributes, resources, applicationContext);
+        super(errorAttributes, resourceProperties, applicationContext);
         this.setMessageWriters(codecConfigurer.getWriters());
     }
 

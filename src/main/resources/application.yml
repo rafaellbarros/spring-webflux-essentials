@@ -16,15 +16,13 @@ spring:
 
 server:
   port: 8090
-  compression:
-    enabled: false
 
 logging:
   level:
     org:
       springframework:
         data:
-          r2dbc: INFO
+          r2dbc: DEBUG
     io:
       r2dbc:
         postgresql:
