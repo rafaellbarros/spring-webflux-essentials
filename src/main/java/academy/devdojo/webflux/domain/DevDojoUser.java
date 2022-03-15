@@ -3,6 +3,7 @@ package academy.devdojo.webflux.domain;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 import org.springframework.security.core.GrantedAuthority;
@@ -34,6 +35,13 @@ public class DevDojoUser implements UserDetails {
     private String username;
     private String password;
     private String authorities;
+
+    public DevDojoUser(String name, String username, String password, String authorities) {
+        this.name = name;
+        this.username = username;
+        this.password = password;
+        this.authorities = authorities;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
