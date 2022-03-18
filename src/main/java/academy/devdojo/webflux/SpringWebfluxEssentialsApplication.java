@@ -12,6 +12,9 @@ public class SpringWebfluxEssentialsApplication {
 	static {
 		BlockHound.install(
 				builder -> builder.allowBlockingCallsInside("java.util.UUID", "randomUUID")
+						.allowBlockingCallsInside("java.io.InputStream", "readNBytes")
+						.allowBlockingCallsInside("java.io.FilterInputStream", "read")
+						.allowBlockingCallsInside("java.util.stream.ReferencePipeline", "collect")
 		);
 	}
 
